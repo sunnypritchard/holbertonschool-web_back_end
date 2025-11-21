@@ -1,10 +1,8 @@
 #!/usr/bin/env python3
 """This module contains a function that sums a list of float numbers."""
+from typing import List
 
 
-def sum_list(input_list: list[float]) -> float:
+def sum_list(input_list: List[float]) -> float:
     """Returns the sum of a list of float numbers."""
-    total: float = 0.0
-    for num in input_list:
-        total += num
-    return total
+    return sum(input_list)
