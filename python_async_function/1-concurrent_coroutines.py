@@ -6,24 +6,29 @@ from typing import List
 wait_random = __import__('0-basic_async_syntax').wait_random
 
 
-async def wait_n(n: int, max_delay: int = 10) -> list[float]:
-    """Asynchronous coroutine that waits for n random delays.
+async def wait_n(n: int, max_delay: int) -> List[float]:
+    """Spawn wait_random n times with the specified max_delay.
 
     Args:
-        n (int): The number of delays to wait for.
-        max_delay (int): The maximum delay time in seconds (default is 10).
+        n (int): Number of times to spawn wait_random.
+        max_delay (int): The maximum delay time in seconds.
 
     Returns:
-        list[float]: A list of the actual delay times in seconds.
+        List[float]: List of all the delays in ascending order.
     """
-    delays: List[float] = []
-    tasks: List = []
+    delays = []
+    tasks = [wait_random(max_delay) for _ in range(n)]
 
-    for _ in range(n):
-        tasks.append(wait_random(max_delay))
-
-    for tasks in asyncio.as_completed((tasks)):
-        delay = await tasks
-        delays.append(delay)
+    for task in asyncio.as_completed(tasks):
+        delay = await task
+        # Insert delay in ascending order without using sort()
+        inserted = False
+        for i in range(len(delays)):
+            if delay < delays[i]:
+                delays.insert(i, delay)
+                inserted = True
+                break
+        if not inserted:
+            delays.append(delay)
 
     return delays
