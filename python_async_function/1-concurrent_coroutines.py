@@ -1,6 +1,8 @@
 #!/usr/bin/env python3
-"""Module that defines an asynchronous coroutine to wait for n random delays."""
-import asyncio
+"""
+Module that defines an asynchronous coroutine to
+wait for n random delays.
+"""
 from typing import List
 
 wait_random = __import__('0-basic_async_syntax').wait_random
@@ -16,19 +18,8 @@ async def wait_n(n: int, max_delay: int) -> List[float]:
     Returns:
         List[float]: List of all the delays in ascending order.
     """
-    delays: List[float] = []
-    tasks: List[asyncio.Task] = [wait_random(max_delay) for _ in range(n)]
-
-    for task in asyncio.as_completed(tasks):
-        delay = await task
-        # Insert delay in ascending order without using sort()
-        inserted = False
-        for i in range(len(delays)):
-            if delay < delays[i]:
-                delays.insert(i, delay)
-                inserted = True
-                break
-        if not inserted:
-            delays.append(delay)
-
-    return delays
+    wait_list = []
+    for _ in range(n):
+        wait = await wait_random(max_delay)
+        wait_list.append(wait)
+    return sorted(wait_list)
