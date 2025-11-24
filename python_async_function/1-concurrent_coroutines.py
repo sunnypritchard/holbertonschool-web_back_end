@@ -17,16 +17,13 @@ async def wait_n(n: int, max_delay: int = 10) -> list[float]:
         list[float]: A list of the actual delay times in seconds.
     """
     delays: List[float] = []
-    tasks: List = [wait_random(max_delay) for _ in range(n)]
+    tasks: List = []
 
-    for task in asyncio.as_completed(tasks):
-        delay = await task
+    for _ in range(n):
+        tasks.append(wait_random(max_delay))
+
+    for tasks in asyncio.as_completed((tasks)):
+        delay = await tasks
         delays.append(delay)
+
     return delays
-
-
-if __name__ == "__main__":
-
-    print(asyncio.run(wait_n(5, 5)))
-    print(asyncio.run(wait_n(10, 7)))
-    print(asyncio.run(wait_n(10, 0)))
