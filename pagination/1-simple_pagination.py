@@ -42,4 +42,5 @@ class Server:
         except AssertionError:
             return []
         start_index, end_index = index_range(page, page_size)
-        return self.dataset()[start_index:end_index]
+
+        return self.__dataset[start_index:end_index]
