@@ -36,11 +36,15 @@ class Server:
         Returns:
             List[List]: A list of lists representing the page of data.
         """
-        assert isinstance(page, int) and page > 0
-        assert isinstance(page_size, int) and page_size > 0
+        assert (
+            isinstance(page, int) and page > 0
+        )
+        assert (
+            isinstance(page_size, int) and page_size > 0
+        )
 
+        start_index, end_index = index_range(page, page_size)
         if start_index >= len(self.dataset()):
             return []
-        start_index, end_index = index_range(page, page_size)
 
         return self.__dataset[start_index:end_index]
