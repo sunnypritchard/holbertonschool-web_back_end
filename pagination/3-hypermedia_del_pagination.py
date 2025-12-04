@@ -48,16 +48,16 @@ class Server:
         Returns:
             Dict: A dictionary containing pagination information and data.
         """
-        assert (
-            isinstance(index, int) and index >= 0 and index < len(self.indexed_dataset())
-        )
-        assert (
-            isinstance(page_size, int) and page_size > 0
-        )
+        assert isinstance(index, int)
+        assert index >= 0
+        assert index < len(self.indexed_dataset())
+        assert isinstance(page_size, int)
+        assert page_size > 0
 
         data = []
         current_index = index
-        while len(data) < page_size and current_index < len(self.indexed_dataset()):
+        max_index = len(self.indexed_dataset())
+        while len(data) < page_size and current_index < max_index:
             if current_index in self.indexed_dataset():
                 data.append(self.indexed_dataset()[current_index])
                 current_index += 1
