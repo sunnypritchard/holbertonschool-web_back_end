@@ -1,0 +1,2 @@
+// List documents in a collection school with name "Holberton school"
+db.school.find({name: "Holberton school"});
