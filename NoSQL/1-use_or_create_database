@@ -1,0 +1,2 @@
+// Create or switch to a database in MongoDB
+use my_db;
